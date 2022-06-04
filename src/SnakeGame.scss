@@ -1,0 +1,26 @@
+.game-board {
+    display: grid;
+    height: fit-content;
+    width: fit-content;
+    grid-template-columns: repeat(var(--board-size), 20px);
+    grid-template-rows: repeat(var(--board-size), 20px);
+    background-color: #1e1e1e;
+
+    &__cell {
+        min-height: 100%;
+        min-width: 100%;
+
+        &:nth-child(2n) {
+            background-color: #272727;
+        }
+
+        &--snake {
+            background : hsl(96, 73%, 63.7%);
+            filter: hue-rotate(var(--hue-rotation));
+        }
+
+        &--food {
+            background-color: red;
+        }
+    }
+}
