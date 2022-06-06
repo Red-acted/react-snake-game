@@ -1,3 +1,7 @@
+button:hover {
+    cursor: pointer;
+}
+
 .main-screen {
     display: flex;
     flex-direction: column;
@@ -30,6 +34,7 @@
 }
 
 .game {
+    top: 50px;
     position: relative;
     display: flex;
     align-items: center;
@@ -49,6 +54,7 @@
     &__pop-up {
         position: absolute;
         z-index: 1;
+        width: 125px;
 
         display: flex;
         flex-direction: column;

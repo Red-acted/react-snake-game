@@ -1,16 +1,24 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import "./App.scss"
 import SnakeGame from "./SnakeGame"
+import { useLocalStorage } from "../hooks/useLocalStorage"
 
 type GameState = "MAIN_SCREEN"|"GAME"|"GAME_OVER"
 
 export default function App() {
+    const [highestScore, setHighestScore] = useLocalStorage("highest-score", 0)
     const [score, setScore] = useState(0)
     const [gameState, setGameState] = useState<GameState>("MAIN_SCREEN")
     const [key, setKey] = useState(0)
     
     const tickDuration = useRef(250)
     const size = useRef(11)
+
+    useEffect(() => {
+        if (score > highestScore) {
+            setHighestScore(score)
+        }
+    }, [setHighestScore, highestScore, score])
 
     if (gameState === "MAIN_SCREEN") {
         return (
@@ -42,7 +50,10 @@ export default function App() {
                         <option value={150}>Normal</option>
                         <option value={75}>Fast</option>
                     </select>
-                </div>        
+                </div>  
+                {highestScore > 0 &&
+                    <span>🍎 Highest score: {highestScore}</span> 
+                }    
             </div>
         )
     }
@@ -51,18 +62,18 @@ export default function App() {
         <div className={gameState === "GAME" ? "game" : "game--lost"}>
             {gameState === "GAME_OVER" &&
                 <div className="game__pop-up"> 
-                    <span>Você perdeu. 💀</span>
+                    <span>You died. 💀</span>
                     <span>🍎: {score}</span>
                     <button className="game__button"
                         onClick={() => {
                             setKey(key + 1)
                             setGameState("GAME")
                         }}>
-                        Jogar Novamente
+                        Play Again
                     </button>
                     <button className="game__button"
                         onClick={() => setGameState("MAIN_SCREEN")}>
-                        Menu Principal
+                        Main Menu
                     </button>
                 </div>
             }
